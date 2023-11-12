@@ -3,7 +3,7 @@
 module Api
   module V1
     class ExpensesController < ApplicationController
-      before_action :set_expense, only: %i[update]
+      before_action :set_expense, only: %i[update show]
       def index
         @expenses = Expense.all
 
@@ -28,6 +28,14 @@ module Api
         end
       end
 
+      def show
+        if @expense
+          render json: ExpenseSerializer.new(@expense).serializable_hash.to_json, status: :ok
+        else
+          render json: ExpenseSerializer.new([]).serializable_hash.to_json, status: :ok
+        end
+      end
+
       private
 
       def expense_params
@@ -39,7 +47,7 @@ module Api
       end
 
       def set_expense
-        @expense = Expense.find(params[:id])
+        @expense = Expense.find_by(id: params[:id])
       end
     end
   end

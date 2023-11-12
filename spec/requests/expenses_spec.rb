@@ -62,5 +62,28 @@ RSpec.describe 'Expenses', type: :request do
       expect(result['errors'][0]).to eq("Payee can't be blank")
     end
   end
+
+  describe 'GET #show' do
+    it 'success' do
+      get "/api/v1/expenses/#{coffee.id}"
+      expect(response.status).to eq(200)
+
+      result = JSON.parse(response.body)
+      expect(result.dig('data', 'attributes')).to include_json(
+        'id' => a_kind_of(Integer),
+        'payee' => 'Coffee',
+        'amount' => 2.5,
+        'expense_date' => '2023-11-10'
+      )
+    end
+
+    it 'fails' do
+      get '/api/v1/expenses/1234'
+      expect(response.status).to eq(200)
+
+      result = JSON.parse(response.body)
+      expect(result['data']).to eq([])
+    end
+  end
 end
  

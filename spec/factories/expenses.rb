@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 FactoryBot.define do
-  factory :expense do
+  factory :expense, class: Expense do
     payee { "MyString" }
     amount { 1.5 }
     expense_date { "2023-11-10" }

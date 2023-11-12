@@ -3,5 +3,5 @@
 class ExpenseSerializer
   include JSONAPI::Serializer
   
-  attributes :payee, :amount, :expense_date
+  attributes :id, :payee, :amount, :expense_date
 end

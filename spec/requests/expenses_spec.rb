@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Expenses', type: :request do
-  describe 'GET #index' do
-    let!(:coffee) { create(:expense, :coffee) }
-    let!(:groceries) { create(:expense, :groceries) }
-    let!(:hospital) { create(:expense, :hospital) }
+  let!(:coffee) { create(:expense, :coffee) }
+  let!(:groceries) { create(:expense, :groceries) }
+  let!(:hospital) { create(:expense, :hospital) }
 
+  describe 'GET #index' do
     it 'success' do
       get '/api/v1/expenses'
       expect(response.status).to eq(200)
@@ -42,6 +42,24 @@ RSpec.describe 'Expenses', type: :request do
       
       result = JSON.parse(response.body)
       expect(result['errors']).to include("Payee can't be blank", "Amount can't be blank", "Expense date can't be blank")
+    end
+  end
+
+  describe 'PUT #update' do
+    it 'success' do
+      patch "/api/v1/expenses/#{coffee.id}", params: { 'payee' => 'Starbucks Coffee' }
+      expect(response.status).to eq(200)
+
+      result = JSON.parse(response.body)
+      expect(result['data']['attributes']['payee']).to eq('Starbucks Coffee')
+    end
+
+    it 'fails' do
+      patch "/api/v1/expenses/#{coffee.id}", params: { 'payee' => '' }
+      expect(response.status).to eq(422)
+      
+      result = JSON.parse(response.body)
+      expect(result['errors'][0]).to eq("Payee can't be blank")
     end
   end
 end

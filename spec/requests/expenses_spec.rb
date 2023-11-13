@@ -6,6 +6,7 @@ RSpec.describe 'Expenses', type: :request do
   let!(:coffee) { create(:expense, :coffee) }
   let!(:groceries) { create(:expense, :groceries) }
   let!(:hospital) { create(:expense, :hospital) }
+  let!(:inactive_expense) { create(:expense, :inactive_expense) }
 
   describe 'GET #index' do
     it 'success' do
@@ -83,6 +84,18 @@ RSpec.describe 'Expenses', type: :request do
 
       result = JSON.parse(response.body)
       expect(result['data']).to eq([])
+    end
+  end
+
+  describe 'Soft Delete #delete' do
+    it 'successful' do
+      delete "/api/v1/expenses/#{coffee.id}"
+      expect(response.status).to eq(200)
+
+      result = JSON.parse(response.body)
+      expect(result['notice']).to eq('expense deleted successfully')
+
+      expect(Expense.find_by(id: coffee.id).active).to be_falsey
     end
   end
 end

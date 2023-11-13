@@ -3,9 +3,9 @@
 module Api
   module V1
     class ExpensesController < ApplicationController
-      before_action :set_expense, only: %i[update show]
+      before_action :set_expense, only: %i[update show destroy]
       def index
-        @expenses = Expense.all
+        @expenses = Expense.all_active
 
         render json: ExpenseSerializer.new(@expenses).serializable_hash.to_json, status: :ok
       end
@@ -36,10 +36,17 @@ module Api
         end
       end
 
+      def destroy
+        @expense.update_attribute(:active, false)
+        if @expense.save
+          render json: { notice: 'expense deleted successfully' }, status: :ok 
+        end
+      end
+
       private
 
       def expense_params
-        params.permit(:payee, :amount, :expense_date)
+        params.permit(:payee, :amount, :expense_date, :active)
       end
 
       def render_error(errors, status= :unprocessable_entity)

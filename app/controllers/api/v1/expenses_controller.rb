@@ -5,13 +5,15 @@ module Api
     class ExpensesController < ApplicationController
       before_action :set_expense, only: %i[update show destroy]
       def index
-        @expenses = Expense.all_active
+        @expenses = ExpenseRepository.instance.active_expenses
 
         render json: ExpenseSerializer.new(@expenses).serializable_hash.to_json, status: :ok
       end
 
       def create
-        @expense = Expense.new(expense_params)
+        return render_error(errors: 'There was an error in the parameters') if expense_params.values.empty?
+        
+        @expense = ExpenseRepository.instance.create_from_params!(**expense_params)
         
         if @expense.save
           render json: ExpenseSerializer.new(@expense).serializable_hash.to_json, status: :created
@@ -54,7 +56,7 @@ module Api
       end
 
       def set_expense
-        @expense = Expense.find_by(id: params[:id])
+        @expense = ExpenseRepository.instance.find_by(id: params[:id])
       end
     end
   end

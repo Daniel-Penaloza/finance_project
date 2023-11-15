@@ -24,8 +24,29 @@ FactoryBot.define do
   trait :hospital do
     payee { 'Doctor Appointment' }
     amount { 200.0 }
-    expense_date { '2023-11-11' }
+    expense_date { '2023-10-11' }
     active { true }
+  end
+
+  trait :school do
+    payee { 'Schoool' }
+    amount { 180.0 }
+    expense_date { '2023-01-01' }
+    active { true }
+  end
+
+  trait :water do
+    payee { 'Water' }
+    amount { 120.0 }
+    expense_date { '2023-01-01' }
+    active { true }
+  end
+
+  trait :party do
+    payee { 'Party' }
+    amount { 1800.0 }
+    expense_date { '2023-01-01' }
+    active { false }
   end
 
   trait :inactive_expense do

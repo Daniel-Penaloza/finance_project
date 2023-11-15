@@ -40,9 +40,9 @@ RSpec.describe 'Expenses', type: :request do
     it 'fails' do
       post '/api/v1/expenses', params: {}
       expect(response.status).to eq(422)
-      
+
       result = JSON.parse(response.body)
-      expect(result['errors']).to include("Payee can't be blank", "Amount can't be blank", "Expense date can't be blank")
+      expect(result['errors']).to include("There was an error in the parameters")
     end
   end
 

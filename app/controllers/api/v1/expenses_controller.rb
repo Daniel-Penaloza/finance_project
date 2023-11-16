@@ -4,6 +4,7 @@ module Api
   module V1
     class ExpensesController < ApplicationController
       before_action :set_expense, only: %i[update show destroy]
+
       def index
         @expenses = ExpenseRepository.instance.active_expenses
 

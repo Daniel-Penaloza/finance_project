@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ExpenseRepository < BaseRepository
+  include Filterable
+  
   def active_expenses
     @db_client.where('active =?', true)
   end
@@ -19,12 +21,6 @@ class ExpenseRepository < BaseRepository
   def sum_by_month(date)
     month = Time.parse(date).strftime('%m')
     expenses = @db_client.all.select {|expense| expense.expense_date.month.to_s == month && expense.active == true }
-    expenses.sum(&:amount)
-  end
-
-  def sum_by_day(date)
-    day = Time.parse(date).strftime('%d')
-    expenses = @db_client.all.select {|expense| expense.expense_date.day == day.to_i && expense.active == true }
     expenses.sum(&:amount)
   end
 end

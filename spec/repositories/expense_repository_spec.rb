@@ -39,11 +39,4 @@ RSpec.describe ExpenseRepository, type: :repository do
       expect(result).to eq(200)
     end
   end
-
-  describe '#sum_by_day' do
-    it do
-      result = repository.instance.sum_by_day('2023-01-01')
-      expect(result).to eq(300)
-    end
-  end
 end

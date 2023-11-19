@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ExpenseRepository < BaseRepository
-  include Filterable
-  
   def active_expenses
     @db_client.where('active =?', true)
   end

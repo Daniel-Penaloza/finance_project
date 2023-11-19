@@ -7,9 +7,7 @@ module Api
 
       def index
         schema = Schemas::V1::Expenses::IndexSchema
-        expenses_params = schema.call(params.permit!.to_h)
-        raise 'There was an error in the parameters' if expenses_params.failure?
-
+        expenses_params = validate_schema(params.permit!.to_h, schema)
         expenses = Expenses::Index.new(**expenses_params.to_h).execute
 
         render json: ExpenseSerializer.new(expenses).serializable_hash.to_json, status: :ok

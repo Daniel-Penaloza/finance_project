@@ -23,17 +23,25 @@ module Strategy
       end
 
       def generate_csv
-        @monthly_expenses = ExpenseRepository.instance.expenses_by_month(year: params[:year], month: params[:month])
+        if present_params?
+          @monthly_expenses = ExpenseRepository.instance.expenses_by_month(year: params[:year], month: params[:month])
 
-        @report = CSV.generate(headers: headers, write_headers: true) do |csv|
-          @monthly_expenses.each do |expense|
-            csv << [expense.payee, expense.amount, expense.expense_date, expense.active]
+          @report = CSV.generate(headers: headers, write_headers: true) do |csv|
+            @monthly_expenses.each do |expense|
+              csv << [expense.payee, expense.amount, expense.expense_date, expense.active]
+            end
           end
+        else
+          raise "There was an error in the parameters"
         end
       end
 
       def headers
         %i[payee amount expense_date status]
+      end
+
+      def present_params?
+        params&.include?(:year) && params&.include?(:month)
       end
     end
   end

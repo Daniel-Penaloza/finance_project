@@ -23,6 +23,16 @@ RSpec.describe Strategy::Reports::MonthlyReport, type: :strategy do
     end
   end
 
+  context '#fail' do
+    let(:params) {}
+    
+    it 'raise an exception' do
+      expect { execute_strategy(params) }.to raise_error(
+        RuntimeError, 'There was an error in the parameters'
+      )
+    end
+  end
+
   def execute_strategy(params)
     described_class.new(params).execute
   end

@@ -11,7 +11,7 @@ RSpec.describe Strategy::Reports::MonthlyReport, type: :strategy do
 
 
   context '#succesfull' do
-    let(:params) { [{ year: '2023', month: '11' }] }
+    let(:params) { { year: '2023', month: '11' } }
     
     it 'generates the report' do
       csv_content = execute_strategy(params)

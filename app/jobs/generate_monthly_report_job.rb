@@ -4,7 +4,7 @@
 class GenerateMonthlyReportJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
+  def perform(**args)
     Strategy::Reports::MonthlyReport.new(args).execute
   end
 end

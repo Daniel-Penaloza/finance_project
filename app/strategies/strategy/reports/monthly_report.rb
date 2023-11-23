@@ -3,14 +3,7 @@ require 'csv'
 
 module Strategy
   module Reports
-    class MonthlyReport
-      attr_reader :params
-
-      def initialize(params)
-        #TODO: Modify this on the call to just use params
-        @params = params[0]
-      end
-      
+    class MonthlyReport < StrategyBase
       def execute
         setup_file_options
         open_file

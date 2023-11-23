@@ -15,7 +15,7 @@ RSpec.describe ExpenseRepository, type: :repository do
   describe '#active_expenses' do
     it do
       result = repository.instance.active_expenses
-      expect(result.count).to eq(5)
+      expect(result.count).to eq(6)
     end
   end
 
@@ -29,7 +29,7 @@ RSpec.describe ExpenseRepository, type: :repository do
   describe '#sum_by_year' do
     it do
       result = repository.instance.sum_by_year('2023-11-10')
-      expect(result).to eq 652.50
+      expect(result).to eq 352.50
     end
   end
   

@@ -5,6 +5,8 @@ module Schemas
     module Expenses
       IndexSchema = Dry::Schema.Params do
         optional(:date).value(:string)
+        optional(:year).value(:string)
+        optional(:month).value(:string)
       end
     end
   end

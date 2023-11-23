@@ -6,6 +6,9 @@ RSpec.describe 'Expenses', type: :request do
   let!(:coffee) { create(:expense, :coffee) }
   let!(:groceries) { create(:expense, :groceries) }
   let!(:hospital) { create(:expense, :hospital) }
+  let!(:school) { create(:expense, :school) }
+  let!(:water) { create(:expense, :water) }
+  let!(:party) { create(:expense, :party) }
   let!(:inactive_expense) { create(:expense, :inactive_expense) }
 
   describe 'GET #index' do
@@ -19,7 +22,31 @@ RSpec.describe 'Expenses', type: :request do
       expect(response.status).to eq(200)
       
       result = JSON.parse(response.body)
+      expect(result['data'].count).to eq(6)
+    end
+
+    it 'success expenses on given date' do
+      get '/api/v1/expenses?date=2023-11-10'
+      expect(response.status).to eq(200)
+
+      result = JSON.parse(response.body)
+      expect(result['data'].count).to eq(2)
+    end
+
+    it 'success expenses on given year' do
+      get '/api/v1/expenses?year=2023'
+      expect(response.status).to eq(200)
+
+      result = JSON.parse(response.body)
       expect(result['data'].count).to eq(3)
+    end
+
+    it 'success expenses on given year and month' do
+      get '/api/v1/expenses?year=2021&month=01'
+      expect(response.status).to eq(200)
+
+      result = JSON.parse(response.body)
+      expect(result['data'].count).to eq(2)
     end
   end
 

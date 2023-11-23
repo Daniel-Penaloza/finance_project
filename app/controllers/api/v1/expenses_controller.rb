@@ -6,9 +6,11 @@ module Api
       before_action :set_expense, only: %i[update show destroy]
 
       def index
-        @expenses = ExpenseRepository.instance.active_expenses
+        schema = Schemas::V1::Expenses::IndexSchema
+        expenses_params = validate_schema(params.permit!.to_h, schema)
+        expenses = Expenses::Index.new(**expenses_params.to_h).execute
 
-        render json: ExpenseSerializer.new(@expenses).serializable_hash.to_json, status: :ok
+        render json: ExpenseSerializer.new(expenses).serializable_hash.to_json, status: :ok
       end
 
       def create

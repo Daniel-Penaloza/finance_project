@@ -31,22 +31,22 @@ FactoryBot.define do
   trait :school do
     payee { 'Schoool' }
     amount { 180.0 }
-    expense_date { '2023-01-01' }
+    expense_date { '2021-02-01' }
     active { true }
   end
 
   trait :water do
     payee { 'Water' }
     amount { 120.0 }
-    expense_date { '2023-01-01' }
+    expense_date { '2021-01-01' }
     active { true }
   end
 
   trait :party do
     payee { 'Party' }
     amount { 1800.0 }
-    expense_date { '2023-01-01' }
-    active { false }
+    expense_date { '2021-01-01' }
+    active { true }
   end
 
   trait :inactive_expense do

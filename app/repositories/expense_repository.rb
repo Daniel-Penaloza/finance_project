@@ -1,10 +1,20 @@
 # frozen_string_literal: true
 
 class ExpenseRepository < BaseRepository
-  include Filterable
-  
   def active_expenses
     @db_client.where('active =?', true)
+  end
+
+  def expenses_by_date(date:)
+    active_expenses.where('expense_date =?', date)
+  end
+
+  def expenses_by_year(year:)
+    active_expenses.where('extract(year FROM expense_date) =?', year)
+  end
+
+  def expenses_by_month(year:, month:)
+    expenses_by_year(year: year).where('extract(month FROM expense_date) =?', month)
   end
 
   def sum_by_date(date)

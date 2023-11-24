@@ -8,28 +8,27 @@ module Api
       def index
         schema = Schemas::V1::Expenses::IndexSchema
         expenses_params = validate_schema(params.permit!.to_h, schema)
-        expenses = Expenses::Index.new(**expenses_params.to_h).execute
+        expenses = Expenses::Index.new(**expenses_params).execute
 
         render json: ExpenseSerializer.new(expenses).serializable_hash.to_json, status: :ok
       end
 
       def create
-        return render_error(errors: 'There was an error in the parameters') if expense_params.values.empty?
+        schema = Schemas::V1::Expenses::CreateSchema
+        expense_params = validate_schema(params.permit!.to_h, schema)
+        expense = Expenses::Create.new(**expense_params).execute
         
-        @expense = ExpenseRepository.instance.create_from_params!(**expense_params)
-        
-        if @expense.save
-          render json: ExpenseSerializer.new(@expense).serializable_hash.to_json, status: :created
-        else
-          render_error(errors: @expense.errors.full_messages)
+        if expense.save
+          render json: ExpenseSerializer.new(expense).serializable_hash.to_json, status: :created
         end
       end
 
       def update
-        if @expense.update(expense_params)
+        schema = Schemas::V1::Expenses::UpdateSchema
+        expense_params = validate_schema(params.permit!.to_h, schema)
+      
+        if @expense.update!(expense_params)
           render json: ExpenseSerializer.new(@expense).serializable_hash.to_json, status: :ok
-        else
-          render_error(errors: @expense.errors.full_messages)
         end
       end
 
@@ -42,21 +41,17 @@ module Api
       end
 
       def destroy
-        @expense.update_attribute(:active, false)
+        schema = Schemas::V1::Expenses::DestroySchema
+        expense_params = validate_schema(params.permit!.to_h, schema)
+
+        @expense.update_attribute(:active, false) if @expense.update!(expense_params)
+        
         if @expense.save
           render json: { notice: 'expense deleted successfully' }, status: :ok 
         end
       end
 
       private
-
-      def expense_params
-        params.permit(:payee, :amount, :expense_date, :active)
-      end
-
-      def render_error(errors, status= :unprocessable_entity)
-        render json: errors, status: status
-      end
 
       def set_expense
         @expense = ExpenseRepository.instance.find_by(id: params[:id])

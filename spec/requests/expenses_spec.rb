@@ -65,11 +65,9 @@ RSpec.describe 'Expenses', type: :request do
     end
 
     it 'fails' do
-      post '/api/v1/expenses', params: {}
-      expect(response.status).to eq(422)
-
-      result = JSON.parse(response.body)
-      expect(result['errors']).to include("There was an error in the parameters")
+      expect { post '/api/v1/expenses', params: {} }.to raise_error(
+        RuntimeError, 'There was an error in the parameters'
+      )
     end
   end
 
@@ -83,11 +81,9 @@ RSpec.describe 'Expenses', type: :request do
     end
 
     it 'fails' do
-      patch "/api/v1/expenses/#{coffee.id}", params: { 'payee' => '' }
-      expect(response.status).to eq(422)
-      
-      result = JSON.parse(response.body)
-      expect(result['errors'][0]).to eq("Payee can't be blank")
+      expect { patch "/api/v1/expenses/#{coffee.id}", params: { 'payee' => '' } }.to raise_error(
+        RuntimeError, 'There was an error in the parameters'
+      )
     end
   end
 
@@ -123,6 +119,12 @@ RSpec.describe 'Expenses', type: :request do
       expect(result['notice']).to eq('expense deleted successfully')
 
       expect(Expense.find_by(id: coffee.id).active).to be_falsey
+    end
+
+    it 'fails' do
+      expect { delete "/api/v1/expenses/asdf" }.to raise_error(
+        RuntimeError, 'There was an error in the parameters'
+      )
     end
   end
 end

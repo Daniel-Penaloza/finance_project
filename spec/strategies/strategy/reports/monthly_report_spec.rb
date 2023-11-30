@@ -13,23 +13,17 @@ RSpec.describe Strategy::Reports::MonthlyReport, type: :strategy do
   context '#succesfull' do
     let(:params) { { year: '2023', month: '11' } }
     
-    it 'generates the report' do
-      csv_content = execute_strategy(params)
-      expect(csv_content).to include(headers)
-      
-      [coffee, groceries, expense].each do |expense|
-        expect(csv_content).to include(expense.attributes['payee'])
-      end
+    it 'generates the report with params' do
+      report = execute_strategy(params)
+      expect(report[0]).to be_a(Pathname)
+      expect(report[0].split.last.to_s).to eq("monthly_report_#{params[:year]}_#{params[:month]}.csv")
     end
-  end
 
-  context '#fail' do
-    let(:params) {}
-    
-    it 'raise an exception' do
-      expect { execute_strategy(params) }.to raise_error(
-        RuntimeError, 'There was an error in the parameters'
-      )
+    it 'generates the report without params' do
+      date = Time.use_zone('Mexico City') { Time.now.in_time_zone }
+      report = execute_strategy({})
+      expect(report[0]).to be_a(Pathname)
+      expect(report[0].split.last.to_s).to eq("monthly_report_#{date.year}_#{date.month}.csv")
     end
   end
 

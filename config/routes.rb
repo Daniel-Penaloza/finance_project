@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :expenses, only: %i[index create update show destroy]
+      resources :monthly_report, only: %i[create]
     end
   end
 

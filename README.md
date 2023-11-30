@@ -4,5 +4,5 @@
 * expenses?date=2023-01-01
 
 #### TODOS
+* Review all the services, strategies, etc and update test suite coverage.
 * Remove keys from mailtrap.
-* Generate an endpoint for the creation and send of report via email.

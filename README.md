@@ -2,3 +2,7 @@
 * expenses?year=2023
 * expenses?year=2023&month=01
 * expenses?date=2023-01-01
+
+#### TODOS
+* Remove keys from mailtrap.
+* Generate an endpoint for the creation and send of report via email.

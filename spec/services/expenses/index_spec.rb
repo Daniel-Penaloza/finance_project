@@ -27,6 +27,11 @@ RSpec.describe Expenses::Index do
         result = execute_service(year_params)
         expect(result).to contain_exactly(coffee, groceries, hospital)
       end
+
+      it 'active expenses' do
+        result = execute_service({})
+        expect(result).to contain_exactly(coffee, groceries, hospital)
+      end
     end
   end
 

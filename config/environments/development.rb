@@ -71,8 +71,8 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :user_name => '9171feede75017',
-    :password => '972aa795be9205',
+    :user_name => Figaro.env.MAILTRAP_USER,
+    :password => Figaro.env.MAILTRAP_PASSWORD,
     :address => 'sandbox.smtp.mailtrap.io',
     :host => 'sandbox.smtp.mailtrap.io',
     :port => '2525',

@@ -17,6 +17,10 @@ class ExpenseRepository < BaseRepository
     expenses_by_year(year: year).where('extract(month FROM expense_date) =?', month)
   end
 
+  def expenses_by_range(date: , date_two:)
+    active_expenses.where(expense_date: date..date_two)
+  end
+
   def sum_by_date(date)
     expenses = @db_client.where('expense_date = ? AND active = ?', date, true)
     expenses.sum(&:amount)

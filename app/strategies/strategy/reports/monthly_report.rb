@@ -39,6 +39,7 @@ module Strategy
         @report = CSV.generate(headers: headers, write_headers: true) do |csv|
           @monthly_expenses.each do |expense|
             csv << [expense.payee, expense.amount, expense.expense_date, expense.active]
+            csv << ["Total #{@monthly_expenses.sum(&:amount)}"] if @monthly_expenses.last == expense
           end
         end
       end

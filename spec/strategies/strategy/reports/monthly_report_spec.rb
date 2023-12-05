@@ -17,6 +17,7 @@ RSpec.describe Strategy::Reports::MonthlyReport, type: :strategy do
       report = execute_strategy(params)
       expect(report[0]).to be_a(Pathname)
       expect(report[0].split.last.to_s).to eq("monthly_report_#{params[:year]}_#{params[:month]}.csv")
+      expect(report[0].readlines.last).to eq("Total 154.0\n")
     end
 
     it 'generates the report without params' do

@@ -39,7 +39,7 @@ gem 'jsonapi-serializer', '~> 2.2'
 gem 'dry-schema', '~> 1.13', '>= 1.13.3'
 gem 'sidekiq', '~> 7.2'
 gem 'mailtrap'
-gem "figaro"
+gem 'figaro', '~> 1.2'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

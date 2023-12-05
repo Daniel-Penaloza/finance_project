@@ -4,5 +4,3 @@
 * expenses?date=2023-01-01
 
 #### TODOS
-* Update the expenses report to include the total amount of all the expenses.
-* Remove keys from mailtrap.

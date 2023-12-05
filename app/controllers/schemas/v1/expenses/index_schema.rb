@@ -7,6 +7,7 @@ module Schemas
         optional(:date).value(:string)
         optional(:year).value(:string)
         optional(:month).value(:string)
+        optional(:date_two).value(:string)
       end
     end
   end

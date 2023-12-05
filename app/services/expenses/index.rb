@@ -3,6 +3,7 @@
 module Expenses
   class Index < BaseService
     def execute
+      return expenses_by_range if range?
       return expenses_by_date if date?
       return expenses_by_month if month?
       return expenses_by_year if year?
@@ -24,6 +25,10 @@ module Expenses
       ExpenseRepository.instance.expenses_by_month(year: params[:year], month: params[:month])
     end
 
+    def expenses_by_range
+      ExpenseRepository.instance.expenses_by_range(date: params[:date], date_two: params[:date_two])
+    end
+
     def active_expenses
       ExpenseRepository.instance.active_expenses
     end
@@ -38,6 +43,10 @@ module Expenses
     
     def year?
       params[:year].present?
+    end
+
+    def range?
+      date? && params[:date_two].present?
     end
   end
 end

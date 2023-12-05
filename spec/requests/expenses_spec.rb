@@ -48,6 +48,14 @@ RSpec.describe 'Expenses', type: :request do
       result = JSON.parse(response.body)
       expect(result['data'].count).to eq(2)
     end
+
+    it 'success expenses on given range' do
+      get '/api/v1/expenses?date=2023-01-01&date_two=2023-12-30'
+      expect(response.status).to eq(200)
+
+      result = JSON.parse(response.body)
+      expect(result['data'].count).to eq(3)
+    end
   end
 
   describe 'POST #create' do

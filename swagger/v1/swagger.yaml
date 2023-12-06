@@ -1,0 +1,71 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/expenses":
+    get:
+      summary: list expenses
+      parameters:
+      - name: date
+        in: query
+        schema:
+          type: string
+        required: false
+      - name: year
+        in: query
+        schema:
+          type: string
+        required: false
+      - name: month
+        in: query
+        schema:
+          type: string
+        required: false
+      - name: date_two
+        in: query
+        schema:
+          type: string
+        required: false
+      responses:
+        '200':
+          description: list of expenses
+    post:
+      summary: create expense
+      responses:
+        '200':
+          description: successful
+  "/api/v1/expenses/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show expense
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update expense
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update expense
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete expense
+      responses:
+        '200':
+          description: successful
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

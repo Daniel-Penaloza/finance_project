@@ -19,15 +19,24 @@ RSpec.describe 'api/v1/expenses', type: :request do
     end
 
     post('create expense') do
-      response(200, 'successful') do
+      consumes 'application/json'
+      parameter name: :expense, in: :body, schema: {
+        type: :object,
+        properties: {
+          payee:        { type: :string },
+          amount:       { type: :number, multipleOf: 0.01 },
+          expense_date: { type: :string }          
+        },
+        required: [ 'payee', 'amount', 'expense_date' ]
+      }
+      
+      response '200', 'expense created' do
+        let(:expense) { { payee: 'the_payee', amount: 200.00, expense_date: '2020-01-01' } }
+        run_test!
+      end
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+      response 'There was an error in the parameters', 'invalid request' do
+        let(:expense) { { payee: 'the_payee' } }
         run_test!
       end
     end
@@ -55,22 +64,16 @@ RSpec.describe 'api/v1/expenses', type: :request do
     patch('update expense') do
       response(200, 'successful') do
         let(:id) { '123' }
-
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
+        consumes 'application/json'
+        
+        parameter name: :expense, in: :body, schema: {
+          type: :object,
+          properties: {
+            payee:  { type: :string },
+            amount: { type: :number, multipleOf: 0.01 },
+            expense_date: { type: :string }
           }
-        end
-        run_test!
-      end
-    end
-
-    put('update expense') do
-      response(200, 'successful') do
-        let(:id) { '123' }
-
+        }
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -96,8 +99,5 @@ RSpec.describe 'api/v1/expenses', type: :request do
         run_test!
       end
     end
-  end
-
-  def set_parameter
   end
 end

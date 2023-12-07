@@ -33,9 +33,29 @@ paths:
           description: list of expenses
     post:
       summary: create expense
+      parameters: []
       responses:
         '200':
-          description: successful
+          description: expense created
+        There was an error in the parameters:
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payee:
+                  type: string
+                amount:
+                  type: number
+                  multipleOf: 0.01
+                expense_date:
+                  type: string
+              required:
+              - payee
+              - amount
+              - expense_date
   "/api/v1/expenses/{id}":
     parameters:
     - name: id
@@ -51,14 +71,23 @@ paths:
           description: successful
     patch:
       summary: update expense
+      parameters: []
       responses:
         '200':
           description: successful
-    put:
-      summary: update expense
-      responses:
-        '200':
-          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payee:
+                  type: string
+                amount:
+                  type: number
+                  multipleOf: 0.01
+                expense_date:
+                  type: string
     delete:
       summary: delete expense
       responses:
@@ -68,4 +97,4 @@ servers:
 - url: http://{defaultHost}
   variables:
     defaultHost:
-      default: www.example.com
+      default: localhost:3000

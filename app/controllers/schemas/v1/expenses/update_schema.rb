@@ -7,7 +7,6 @@ module Schemas
         optional(:payee).filled(:string)
         optional(:amount).filled(:float)
         optional(:expense_date).filled(:string)
-        optional(:active).filled(:bool)
       end
     end    
   end

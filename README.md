@@ -5,6 +5,6 @@
 
 #### TODOS
 * Pagination
-* Swagger
 * JWT authentication
 * Total of expenses in response
+* Custom error for schema validable

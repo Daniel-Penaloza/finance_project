@@ -79,7 +79,7 @@ RSpec.describe 'Expenses', type: :request do
     end
   end
 
-  describe 'PUT #update' do
+  describe 'PATCH #update' do
     it 'success' do
       patch "/api/v1/expenses/#{coffee.id}", params: { 'payee' => 'Starbucks Coffee' }
       expect(response.status).to eq(200)

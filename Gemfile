@@ -40,6 +40,8 @@ gem 'dry-schema', '~> 1.13', '>= 1.13.3'
 gem 'sidekiq', '~> 7.2'
 gem 'mailtrap'
 gem 'figaro', '~> 1.2'
+gem 'rswag-api'
+gem 'rswag-ui'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -49,6 +51,7 @@ group :development, :test do
   gem 'faker', '~> 3.2', '>= 3.2.2'
   gem 'rack-test', '~> 2.1'
   gem 'rspec-json_expectations', '~> 2.2'
+  gem 'rswag-specs'
 end
 
 group :development do

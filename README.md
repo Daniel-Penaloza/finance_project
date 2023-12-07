@@ -4,3 +4,7 @@
 * expenses?date=2023-01-01
 
 #### TODOS
+* Pagination
+* JWT authentication
+* Total of expenses in response
+* Custom error for schema validable

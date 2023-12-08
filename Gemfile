@@ -36,12 +36,14 @@ gem "bootsnap", require: false
 # gem "rack-cors"
 
 gem 'jsonapi-serializer', '~> 2.2'
+gem 'active_model_serializers', '~> 0.10.13'
 gem 'dry-schema', '~> 1.13', '>= 1.13.3'
 gem 'sidekiq', '~> 7.2'
 gem 'mailtrap'
 gem 'figaro', '~> 1.2'
 gem 'rswag-api'
 gem 'rswag-ui'
+gem 'pagy', '~> 6.2'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

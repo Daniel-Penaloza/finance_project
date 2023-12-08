@@ -50,6 +50,11 @@ GEM
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
+    active_model_serializers (0.10.14)
+      actionpack (>= 4.1)
+      activemodel (>= 4.1)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (7.1.2)
       activesupport (= 7.1.2)
       globalid (>= 0.3.6)
@@ -85,6 +90,8 @@ GEM
     bullet (7.1.3)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
+    case_transform (0.2)
+      activesupport
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
     crack (0.4.5)
@@ -145,6 +152,7 @@ GEM
       reline (>= 0.3.8)
     json-schema (4.1.1)
       addressable (>= 2.8)
+    jsonapi-renderer (0.2.2)
     jsonapi-serializer (2.2.0)
       activesupport (>= 4.2)
     loofah (2.21.4)
@@ -173,6 +181,7 @@ GEM
     nio4r (2.5.9)
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
+    pagy (6.2.0)
     pg (1.5.4)
     psych (5.1.1.1)
       stringio
@@ -288,6 +297,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  active_model_serializers (~> 0.10.13)
   bootsnap
   bullet (~> 7.0, >= 7.0.7)
   debug
@@ -297,6 +307,7 @@ DEPENDENCIES
   figaro (~> 1.2)
   jsonapi-serializer (~> 2.2)
   mailtrap
+  pagy (~> 6.2)
   pg (~> 1.1)
   puma (>= 5.0)
   rack-test (~> 2.1)

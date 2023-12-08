@@ -35,10 +35,8 @@ paths:
       summary: create expense
       parameters: []
       responses:
-        '200':
+        '201':
           description: expense created
-        There was an error in the parameters:
-          description: invalid request
       requestBody:
         content:
           application/json:

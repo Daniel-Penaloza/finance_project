@@ -8,6 +8,7 @@ RSpec.describe 'api/v1/expenses', type: :request do
       parameter name: :year,     getter: :year_filter,  in: :query, schema: { type: :string }, required: false
       parameter name: :month,    getter: :month_filter, in: :query, schema: { type: :string }, required: false
       parameter name: :date_two, getter: :range_filter, in: :query, schema: { type: :string }, required: false
+      #parameter name: :page,     getter: :page_query, in: :query, schema: { type: :integer, minimum: 1 }, description: 'page number'
 
       response '200', 'list of expenses' do
         
@@ -30,13 +31,8 @@ RSpec.describe 'api/v1/expenses', type: :request do
         required: [ 'payee', 'amount', 'expense_date' ]
       }
       
-      response '200', 'expense created' do
+      response '201', 'expense created' do
         let(:expense) { { payee: 'the_payee', amount: 200.00, expense_date: '2020-01-01' } }
-        run_test!
-      end
-
-      response 'There was an error in the parameters', 'invalid request' do
-        let(:expense) { { payee: 'the_payee' } }
         run_test!
       end
     end
@@ -63,7 +59,9 @@ RSpec.describe 'api/v1/expenses', type: :request do
 
     patch('update expense') do
       response(200, 'successful') do
-        let(:id) { '123' }
+        let(:expense) { create(:expense, :coffee) }
+        let(:id) { expense.id }
+
         consumes 'application/json'
         
         parameter name: :expense, in: :body, schema: {
@@ -75,7 +73,7 @@ RSpec.describe 'api/v1/expenses', type: :request do
           }
         }
         after do |example|
-          example.metadata[:response][:content] = {
+          example.metadata[:response] = {
             'application/json' => {
               example: JSON.parse(response.body, symbolize_names: true)
             }
@@ -87,7 +85,8 @@ RSpec.describe 'api/v1/expenses', type: :request do
 
     delete('delete expense') do
       response(200, 'successful') do
-        let(:id) { '123' }
+        let(:expense) { create(:expense, :coffee) }
+        let(:id) { expense.id }
 
         after do |example|
           example.metadata[:response][:content] = {

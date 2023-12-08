@@ -8,9 +8,10 @@ module Api
       def index
         schema = Schemas::V1::Expenses::IndexSchema
         expenses_params = validate_schema(params.permit!.to_h, schema)
-        expenses = Expenses::Index.new(**expenses_params).execute
-
-        render json: ExpenseSerializer.new(expenses).serializable_hash.to_json, status: :ok
+        @pagy, expenses = pagy(Expenses::Index.new(**expenses_params).execute, items: 20)
+        expenses_serialized = serialize_result(@pagy, ExpenseSerializer.new(expenses).serializable_hash )
+        
+        render json: expenses_serialized, status: :ok
       end
 
       def create

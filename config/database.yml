@@ -81,6 +81,7 @@ test:
 #
 production:
   <<: *default
+  url: <%= Figaro.env.DATABASE_URL %>
   database: finance_project_production
   username: finance_project
   password: <%= ENV["FINANCE_PROJECT_DATABASE_PASSWORD"] %>

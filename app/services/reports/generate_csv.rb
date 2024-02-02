@@ -2,11 +2,10 @@ require 'csv'
 
 module Reports
   class GenerateCsv
-    attr_reader :params, :date, :monthly_expenses
+    attr_reader :params, :monthly_expenses
 
     def initialize(params:)
       @params = params
-      @date = predefined_date
       @monthly_expenses = monthly_expenses
     end
 
@@ -25,20 +24,16 @@ module Reports
       end
     end
 
-    def present_params?
-      params&.include?(:year) && params&.include?(:month)
-    end
-  
     def headers
       %i[payee amount expense_date status]
     end
 
-    def predefined_date
-      Time.use_zone('Mexico City') { Time.now.in_time_zone }
-    end
-
     def monthly_expenses
       present_params? ? expenses_by_month : expenses_current_month
+    end
+      
+    def present_params?
+      params&.include?(:year) && params&.include?(:month)
     end
 
     def expenses_by_month
@@ -46,7 +41,7 @@ module Reports
     end
 
     def expenses_current_month
-      ExpenseRepository.instance.expenses_by_month(year: date.year, month: date.month)
+      ExpenseRepository.instance.expenses_by_month(year: DateExtension.predefined_date.year, month: DateExtension.predefined_date.month)
     end
 
     def total_expenses_by_month

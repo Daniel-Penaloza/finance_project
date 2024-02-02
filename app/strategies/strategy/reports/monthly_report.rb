@@ -8,7 +8,6 @@ module Strategy
 
       def initialize(date = nil)
         super
-        @date = predefined_date
       end
   
       def execute
@@ -35,16 +34,12 @@ module Strategy
 
 
       def report_date
-        return "#{date.year}_#{date.month}" if params.blank?
+        return "#{DateExtension.predefined_date.year}_#{DateExtension.predefined_date.month}" if params.blank?
         return "#{params[:year]}_#{params[:month]}" if present_params?
       end
 
       def present_params?
         params&.include?(:year) && params&.include?(:month)
-      end
-      
-      def predefined_date
-        Time.use_zone('Mexico City') { Time.now.in_time_zone }
       end
     end
   end

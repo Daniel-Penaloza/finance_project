@@ -30,41 +30,19 @@ module Strategy
       end
 
       def generate_csv
-        @monthly_expenses = if present_params?  
-                              expenses_by_month 
-                            else
-                              expenses_current_month
-                            end
-
-        @report = CSV.generate(headers: headers, write_headers: true) do |csv|
-          @monthly_expenses.each do |expense|
-            csv << [expense.payee, expense.amount, expense.expense_date, expense.active]
-            csv << ["Total #{@monthly_expenses.sum(&:amount)}"] if @monthly_expenses.last == expense
-          end
-        end
+        ::Reports::GenerateCsv.new(params: params).execute
       end
 
-      def headers
-        %i[payee amount expense_date status]
-      end
 
-      def present_params?
-        params&.include?(:year) && params&.include?(:month)
-      end
-
-      def expenses_by_month
-        ExpenseRepository.instance.expenses_by_month(year: params[:year], month: params[:month])
-      end
-
-      def expenses_current_month
-        ExpenseRepository.instance.expenses_by_month(year: date.year, month: date.month)
-      end
-  
       def report_date
         return "#{date.year}_#{date.month}" if params.blank?
         return "#{params[:year]}_#{params[:month]}" if present_params?
       end
 
+      def present_params?
+        params&.include?(:year) && params&.include?(:month)
+      end
+      
       def predefined_date
         Time.use_zone('Mexico City') { Time.now.in_time_zone }
       end

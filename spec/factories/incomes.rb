@@ -5,17 +5,20 @@ FactoryBot.define do
     transmitter { 'MyString' }
     amount { 1.5 }
     transmition_date { '2023-11-10' }
+    active { true }
   end
 
   trait :salary do
     transmitter { 'Bank' }
     amount { 1500 }
     transmition_date { '2023-11-10' }
+    active { true }
   end
 
   trait :other_incomes do
     transmitter { 'other income' }
     amount { 250 }
     transmition_date { '2023-11-10' }
+    active { true }
   end
 end

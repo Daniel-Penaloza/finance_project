@@ -1,21 +1,16 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+module Api
+  module V1
+    class IncomesController < ApplicationController
+      def index
+        schema = Schemas::V1::Incomes::IndexSchema
+        incomes_params = validate_schema(params.permit!.to_h, schema)
+        @pagy, incomes = pagy(Incomes::Index.new(**incomes_params).execute, items: 20)
+        incomes_serialized = serialize_result(@pagy, IncomeSerializer.new(incomes).serializable_hash)
 
-RSpec.describe 'Incomes', type: :request do
-  let!(:salary) { create(:incomes, :salary) }
-  let!(:other_incomes) { create(:incomes, :other_incomes) }
-
-  describe 'Get Incomes' do
-    it 'success' do
-      get 'api/v1/incomes'
-      expect(response.status).to eq(200)
-    end
-
-    it 'success a list of incomes' do
-      get 'api/v1/incomes'
-      result = JSON.parse(response.body)
-      expect(result['data'].count).to eq(2)
+        render json: incomes_serialized, status: :ok
+      end
     end
   end
 end
